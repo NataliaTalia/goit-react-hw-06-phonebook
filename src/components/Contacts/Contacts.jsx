@@ -1,12 +1,11 @@
 import React from 'react';
-
+import { getContacts, getFilter } from 'redux/selectors';
 import { deleteContacts } from '../../redux/contactsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Contacts = () => {
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
-  console.log(contacts);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
 
   const dispatch = useDispatch();
 

@@ -4,11 +4,12 @@ import Filter from './Filter/Filter';
 import { addContacts } from '../redux/contactsSlice';
 import { setFilter } from '../redux/filterSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+
+import { getContacts, getFilter } from '../redux/selectors';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts);
-  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
 
   const dispatch = useDispatch();
 
@@ -33,9 +34,9 @@ const App = () => {
     dispatch(setFilter(e.currentTarget.value));
   };
 
-  useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  // useEffect(() => {
+  //   window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  // }, [contacts]);
 
   return (
     <div
