@@ -1,9 +1,31 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
+import { getContacts } from '../../redux/selectors';
+import { addContacts } from '../../redux/contactsSlice';
 
-const Form = ({ contacts, onSubmit }) => {
+const Form = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const contacts = useSelector(getContacts);
+
+  const dispatch = useDispatch();
+
+  const formSubmitHandler = data => {
+    const { name, number } = data;
+
+    const existingContact = contacts.find(
+      contact =>
+        contact.name.toLowerCase() === name.toLowerCase() ||
+        contact.number === number
+    );
+
+    if (existingContact) {
+      alert(`${existingContact.name} already exists`);
+    } else {
+      dispatch(addContacts(data));
+    }
+  };
 
   const handleInput = e => {
     const { name, value } = e.currentTarget;
@@ -12,8 +34,6 @@ const Form = ({ contacts, onSubmit }) => {
     } else if (name === 'number') {
       setNumber(value);
     }
-    console.log(name);
-    console.log(value);
   };
 
   const handleSubmit = e => {
@@ -23,8 +43,8 @@ const Form = ({ contacts, onSubmit }) => {
       id: nanoid(),
     };
     e.preventDefault();
-    console.log(contacts);
-    onSubmit(newContact);
+
+    formSubmitHandler(newContact);
     reset();
   };
 
